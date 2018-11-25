@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import solution
+import solution_rml as solution
 import csv
 
 filename = 'cities.csv'
