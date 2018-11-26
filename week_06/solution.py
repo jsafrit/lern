@@ -31,19 +31,53 @@ Given this data (or data like it), I'd like you to produce functions that produc
 
 Hint: Nested list comprehensions and the Counter class will make this much easier!
 """
+from collections import Counter
+
+
+all_people = [{'name': 'Reuven', 'age': 48, 'hobbies': ['Python', 'cooking', 'reading']},
+              {'name': 'Atara', 'age': 17, 'hobbies': ['horses', 'cooking', 'art', 'reading']},
+              {'name': 'Shikma', 'age': 15, 'hobbies': ['Python', 'piano', 'cooking', 'reading']},
+              {'name': 'Amotz', 'age': 13, 'hobbies': ['biking', 'cooking']}]
 
 
 def average_age_under(people, maxage):
-    return None
+    if not people:
+        return 0
+    if maxage:
+        all_age = [d['age'] for d in people if d['age'] < maxage]
+    else:
+        all_age = [d['age'] for d in people]
+    if all_age:
+        return sum(all_age)/len(all_age)
+    else:
+        return 0
 
 
 def all_hobbies(people):
-    return None
+    hobbies = []
+    for d in people:
+        hobbies += d['hobbies']
+    return set(hobbies)
 
 
 def hobby_counter(people):
-    return None
+    if not people:
+        return Counter()
+    coll = [Counter(d['hobbies']) for d in people]
+    all_counter = Counter()
+    for c in coll:
+        all_counter += c
+    return all_counter
 
 
 def n_most_common(people, param):
-    return None
+    n_counter = hobby_counter(people).most_common(param)
+    top = [hobby for hobby, count in n_counter]
+    return top
+
+
+if __name__ == '__main__':
+    print(average_age_under(all_people, None))
+    print(all_hobbies(all_people))
+    print(hobby_counter(all_people))
+    print(n_most_common(all_people, 3))
