@@ -3,15 +3,15 @@
 from solution import create_math_problems, solve_math_problems
 
 
-def test_create_math_problems(tmpdir):
-    d = tmpdir / 'sub'
+def test_create_math_problems(tmp_path):
+    d = tmp_path / 'sub'
     d.mkdir()
     f = d / 'test-problems.txt'
     create_math_problems(open(f, 'w'))
 
 
-def test_solve_problems_from_file(capsys, tmpdir):
-    d = tmpdir / 'sub'
+def test_solve_problems_from_file(capsys, tmp_path):
+    d = tmp_path / 'sub'
     d.mkdir()
     f = d / 'test-problems.txt'
     create_math_problems(open(f, 'w'))
