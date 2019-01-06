@@ -25,15 +25,28 @@
 # I'm enclosing a simple set of tests; I'm still feeling a bit under the weather, and didn't have a chance to explore
 # tmp_path as much as I had wanted.  I have some ideas for further tests, but I'll see if I can create those during
 # the week.
+import random
+
+MAX_NUM = 40
+MIN_NUM = -40
+NUM_PROBLEMS = 100
+
+NUMS = list(range(MIN_NUM,MAX_NUM))
+OPERANDS = ['-', '+'] * 3
+FORMAT='[{:3}]  ({:3}) {} ({:3}) {} ({:3}) {} ({:3}) = _____'
+
+def create_math_problems(outfile):
+    for i in range(NUM_PROBLEMS):
+        sn = random.sample(NUMS, 4)
+        so = random.sample(OPERANDS, 3)
+        print(FORMAT.format(i+1, sn[0], so[0], sn[1], so[1], sn[2], so[2], sn[3]), file=outfile)
 
 
-def create_math_problems(_):
-    pass
-
-
-def solve_math_problems(_):
-    print("\n" * 99)
+def solve_math_problems(outfile):
+    for line in outfile.readlines():
+        print(line[:-6].strip(), eval(line[6:-8]))
 
 
 if __name__ == '__main__':
-    pass
+    create_math_problems(open('test.txt','w'))
+    solve_math_problems(open('test.txt','r'))
