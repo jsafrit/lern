@@ -22,6 +22,7 @@ So in the above call, if no exceptions were raised, then the first dictionary re
 fienames in /etc/, with the length of each file as a value.  The second dictionary would be empty.
 """
 import os
+from pathlib import Path
 
 
 def file_length(filename):
@@ -29,9 +30,34 @@ def file_length(filename):
 
 
 def filefunc(dir_name, func):
-    return dict(), dict()
+    good_dict=dict()
+    bad_dict=dict()
+    p = Path(dir_name)
+    for child in p.iterdir():
+        print(child)
+        try:
+            result=func(child)
+            good_dict[child]=result
+        except Exception as e:
+            bad_dict[child]=e
+    return good_dict, bad_dict
+
+
+def filefunc2(dir_name, func):
+    good_dict=dict()
+    bad_dict=dict()
+    for directory, subdirectories, files in os.walk(dir_name):
+        for file in files:
+            print(file)
+            try:
+                full_filename=os.path.join(directory, file)
+                result=func(full_filename)
+                good_dict[file]=result
+            except Exception as e:
+                bad_dict[file]=e
+    return good_dict, bad_dict
 
 
 if __name__ == '__main__':
-    success_dict, failure_dict = filefunc('/etc/', file_length)
+    success_dict, failure_dict = filefunc('c:\\bin\\', file_length)
     print(success_dict, failure_dict)
